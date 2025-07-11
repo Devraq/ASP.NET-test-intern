@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Click below to input employee attendance.</p>
+
+    <a asp-controller="Attendance" asp-action="SaveAttendance" class="btn btn-primary">
+        Input Attendance
+    </a>
+    <a asp-controller="Attendance" asp-action="AttendanceList" class="btn btn-secondary">
+    View Attendance List
+    </a>
+    <a asp-controller="Attendance" asp-action="PivotAttendance" class="btn btn-info">
+    View Pivot Attendance
+    </a>
+    <a asp-controller="Attendance" asp-action="MonthlyPivot" class="btn btn-info">
+    View Monthly Pivot
+    </a>
+    <a asp-controller="Attendance" asp-action="DeleteAttendanceDate" class="btn btn-danger">
+    Delete Attendance Date
+    </a>
+
+</div>

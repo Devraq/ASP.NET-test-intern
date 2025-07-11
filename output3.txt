@@ -1,0 +1,433 @@
+C:\Users\andri\Documents\ASP.NET_Projects\InternTest\WebApplication1\Views\_ViewImports.cshtml
+File type: .cshtml
+﻿@using WebApplication1
+@using WebApplication1.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+--------------------------------------------------
+File End
+--------------------------------------------------
+
+
+C:\Users\andri\Documents\ASP.NET_Projects\InternTest\WebApplication1\Views\_ViewStart.cshtml
+File type: .cshtml
+﻿@{
+    Layout = "_Layout";
+}
+
+
+--------------------------------------------------
+File End
+--------------------------------------------------
+
+
+C:\Users\andri\Documents\ASP.NET_Projects\InternTest\WebApplication1\Views\Attendance\AttendanceList.cshtml
+File type: .cshtml
+@model List<WebApplication1.Models.JoinAttendanceViewModel>
+
+@{
+    ViewData["Title"] = "Attendance List";
+}
+
+<h2>Attendance List (Joined Table)</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>NIK</th>
+            <th>Nama</th>
+            <th>Tanggal Absen</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.NIK</td>
+                <td>@item.Nama</td>
+                <td>@item.TanggalAbsen.ToString("dd/MM/yyyy")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+--------------------------------------------------
+File End
+--------------------------------------------------
+
+
+C:\Users\andri\Documents\ASP.NET_Projects\InternTest\WebApplication1\Views\Attendance\DeleteAttendanceDate.cshtml
+File type: .cshtml
+@{
+    ViewData["Title"] = "Delete Attendance Date";
+    var dates = ViewBag.Dates as List<DateTime>;
+}
+
+<h2>Delete Attendance Date</h2>
+
+@if (TempData["Message"] != null)
+{
+    <p style="color: green;">@TempData["Message"]</p>
+}
+
+<form asp-action="DeleteAttendanceDate" method="post">
+    <div>
+        <label for="tanggalAbsen">Select Date to Delete</label>
+        <select name="tanggalAbsen" id="tanggalAbsen" required>
+            <option value="">-- Select Date --</option>
+            @foreach (var date in dates)
+            {
+                <option value="@date.ToString("yyyy-MM-dd")">@date.ToString("yyyy-MM-dd")</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" onclick="return confirm('Are you sure you want to delete all records for this date?');">
+        Delete
+    </button>
+</form>
+
+
+--------------------------------------------------
+File End
+--------------------------------------------------
+
+
+C:\Users\andri\Documents\ASP.NET_Projects\InternTest\WebApplication1\Views\Attendance\MonthlyPivot.cshtml
+File type: .cshtml
+@model List<WebApplication1.Models.PivotMonthlyViewModel>
+
+@{
+    var allMonths = ViewBag.AllMonths as List<string>;
+}
+
+<h2>Monthly Pivot Attendance</h2>
+
+<table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+        <tr>
+            <th>NIK</th>
+            <th>Nama</th>
+            @foreach (var ym in allMonths)
+            {
+                <th>@ym</th>
+            }
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var emp in Model)
+        {
+            <tr>
+                <td>@emp.NIK</td>
+                <td>@emp.Nama</td>
+                @foreach (var ym in allMonths)
+                {
+                    <td>@emp.MonthCounts[ym]</td>
+                }
+                <td>@emp.Total</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+--------------------------------------------------
+File End
+--------------------------------------------------
+
+
+C:\Users\andri\Documents\ASP.NET_Projects\InternTest\WebApplication1\Views\Attendance\PivotAttendance.cshtml
+File type: .cshtml
+@model List<WebApplication1.Models.PivotAttendanceViewModel>
+
+@{
+    var allDates = ViewBag.AllDates as List<DateTime>;
+}
+
+<h2>Pivot Attendance Table</h2>
+
+<table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+        <tr>
+            <th>NIK</th>
+            <th>Nama</th>
+            @foreach (var date in allDates)
+            {
+                <th>@date.ToString("dd-MM-yyyy")</th>
+            }
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var emp in Model)
+        {
+            <tr>
+                <td>@emp.NIK</td>
+                <td>@emp.Nama</td>
+                @foreach (var date in allDates)
+                {
+                    <td>@(emp.AttendanceDates[date] ? "X" : "")</td>
+                }
+                <td>@emp.Total</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+--------------------------------------------------
+File End
+--------------------------------------------------
+
+
+C:\Users\andri\Documents\ASP.NET_Projects\InternTest\WebApplication1\Views\Attendance\SaveAttendance.cshtml
+File type: .cshtml
+@{
+    ViewData["Title"] = "Input Attendance";
+    var employees = ViewBag.Employees as List<WebApplication1.Models.Employee>;
+}
+
+<h2>Input Attendance</h2>
+
+@if (TempData["Message"] != null)
+{
+    <p style="color: green;">@TempData["Message"]</p>
+}
+
+<form asp-action="SaveAttendance" method="post">
+    <div>
+        <label for="nik">Employee</label>
+        <select name="nik" id="nik" required>
+            <option value="">-- Select Employee --</option>
+            @foreach (var emp in employees)
+            {
+                <option value="@emp.NIK">@emp.NIK - @emp.Nama</option>
+            }
+        </select>
+    </div>
+
+    <div>
+        <label for="tanggalAbsen">Tanggal Absen</label>
+        <input type="date" name="tanggalAbsen" id="tanggalAbsen" required />
+    </div>
+
+    <button type="submit">Save</button>
+</form>
+
+
+--------------------------------------------------
+File End
+--------------------------------------------------
+
+
+C:\Users\andri\Documents\ASP.NET_Projects\InternTest\WebApplication1\Views\Home\Index.cshtml
+File type: .cshtml
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Click below to input employee attendance.</p>
+
+    <a asp-controller="Attendance" asp-action="SaveAttendance" class="btn btn-primary">
+        Input Attendance
+    </a>
+    <a asp-controller="Attendance" asp-action="AttendanceList" class="btn btn-secondary">
+    View Attendance List
+    </a>
+    <a asp-controller="Attendance" asp-action="PivotAttendance" class="btn btn-info">
+    View Pivot Attendance
+    </a>
+    <a asp-controller="Attendance" asp-action="MonthlyPivot" class="btn btn-info">
+    View Monthly Pivot
+    </a>
+    <a asp-controller="Attendance" asp-action="DeleteAttendanceDate" class="btn btn-danger">
+    Delete Attendance Date
+    </a>
+
+</div>
+
+
+--------------------------------------------------
+File End
+--------------------------------------------------
+
+
+C:\Users\andri\Documents\ASP.NET_Projects\InternTest\WebApplication1\Views\Home\Privacy.cshtml
+File type: .cshtml
+﻿@{
+    ViewData["Title"] = "Privacy Policy";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>Use this page to detail your site's privacy policy.</p>
+
+
+--------------------------------------------------
+File End
+--------------------------------------------------
+
+
+C:\Users\andri\Documents\ASP.NET_Projects\InternTest\WebApplication1\Views\Shared\Error.cshtml
+File type: .cshtml
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<h1 class="text-danger">Error.</h1>
+<h2 class="text-danger">An error occurred while processing your request.</h2>
+
+@if (Model.ShowRequestId)
+{
+    <p>
+        <strong>Request ID:</strong> <code>@Model.RequestId</code>
+    </p>
+}
+
+<h3>Development Mode</h3>
+<p>
+    Swapping to <strong>Development</strong> environment will display more detailed information about the error that occurred.
+</p>
+<p>
+    <strong>The Development environment shouldn't be enabled for deployed applications.</strong>
+    It can result in displaying sensitive information from exceptions to end users.
+    For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>
+    and restarting the app.
+</p>
+
+
+--------------------------------------------------
+File End
+--------------------------------------------------
+
+
+C:\Users\andri\Documents\ASP.NET_Projects\InternTest\WebApplication1\Views\Shared\_Layout.cshtml
+File type: .cshtml
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebApplication1</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebApplication1.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebApplication1</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2025 - WebApplication1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+
+--------------------------------------------------
+File End
+--------------------------------------------------
+
+
+C:\Users\andri\Documents\ASP.NET_Projects\InternTest\WebApplication1\Views\Shared\_Layout.cshtml.css
+File type: .css
+﻿/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+a {
+  color: #0077cc;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+}
+
+
+--------------------------------------------------
+File End
+--------------------------------------------------
+
+
+C:\Users\andri\Documents\ASP.NET_Projects\InternTest\WebApplication1\Views\Shared\_ValidationScriptsPartial.cshtml
+File type: .cshtml
+﻿<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+
+
+--------------------------------------------------
+File End
+--------------------------------------------------

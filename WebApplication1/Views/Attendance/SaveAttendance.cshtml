@@ -1,0 +1,31 @@
+@{
+    ViewData["Title"] = "Input Attendance";
+    var employees = ViewBag.Employees as List<WebApplication1.Models.Employee>;
+}
+
+<h2>Input Attendance</h2>
+
+@if (TempData["Message"] != null)
+{
+    <p style="color: green;">@TempData["Message"]</p>
+}
+
+<form asp-action="SaveAttendance" method="post">
+    <div>
+        <label for="nik">Employee</label>
+        <select name="nik" id="nik" required>
+            <option value="">-- Select Employee --</option>
+            @foreach (var emp in employees)
+            {
+                <option value="@emp.NIK">@emp.NIK - @emp.Nama</option>
+            }
+        </select>
+    </div>
+
+    <div>
+        <label for="tanggalAbsen">Tanggal Absen</label>
+        <input type="date" name="tanggalAbsen" id="tanggalAbsen" required />
+    </div>
+
+    <button type="submit">Save</button>
+</form>

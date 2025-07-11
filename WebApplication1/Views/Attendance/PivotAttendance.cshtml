@@ -1,0 +1,35 @@
+@model List<WebApplication1.Models.PivotAttendanceViewModel>
+
+@{
+    var allDates = ViewBag.AllDates as List<DateTime>;
+}
+
+<h2>Pivot Attendance Table</h2>
+
+<table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+        <tr>
+            <th>NIK</th>
+            <th>Nama</th>
+            @foreach (var date in allDates)
+            {
+                <th>@date.ToString("dd-MM-yyyy")</th>
+            }
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var emp in Model)
+        {
+            <tr>
+                <td>@emp.NIK</td>
+                <td>@emp.Nama</td>
+                @foreach (var date in allDates)
+                {
+                    <td>@(emp.AttendanceDates[date] ? "X" : "")</td>
+                }
+                <td>@emp.Total</td>
+            </tr>
+        }
+    </tbody>
+</table>

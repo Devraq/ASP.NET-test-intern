@@ -1,0 +1,35 @@
+@model List<WebApplication1.Models.PivotMonthlyViewModel>
+
+@{
+    var allMonths = ViewBag.AllMonths as List<string>;
+}
+
+<h2>Monthly Pivot Attendance</h2>
+
+<table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+        <tr>
+            <th>NIK</th>
+            <th>Nama</th>
+            @foreach (var ym in allMonths)
+            {
+                <th>@ym</th>
+            }
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var emp in Model)
+        {
+            <tr>
+                <td>@emp.NIK</td>
+                <td>@emp.Nama</td>
+                @foreach (var ym in allMonths)
+                {
+                    <td>@emp.MonthCounts[ym]</td>
+                }
+                <td>@emp.Total</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,27 @@
+@model List<WebApplication1.Models.JoinAttendanceViewModel>
+
+@{
+    ViewData["Title"] = "Attendance List";
+}
+
+<h2>Attendance List (Joined Table)</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>NIK</th>
+            <th>Nama</th>
+            <th>Tanggal Absen</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.NIK</td>
+                <td>@item.Nama</td>
+                <td>@item.TanggalAbsen.ToString("dd/MM/yyyy")</td>
+            </tr>
+        }
+    </tbody>
+</table>
