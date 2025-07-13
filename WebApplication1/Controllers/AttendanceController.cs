@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using WebApplication1.Models;
 
 
-namespace YourProjectNamespace.Controllers
+namespace AttendanceNamespace.Controllers
 {
     public class AttendanceController : Controller
     {
@@ -17,7 +17,6 @@ namespace YourProjectNamespace.Controllers
             _configuration = configuration;
         }
 
-        // GET: Show input form with dropdown
         [HttpGet]
         public IActionResult SaveAttendance()
         {
@@ -46,7 +45,6 @@ namespace YourProjectNamespace.Controllers
             return View();
         }
 
-        // POST: Save the attendance
         [HttpPost]
         public IActionResult SaveAttendance(string nik, DateTime? tanggalAbsen)
         {
@@ -116,7 +114,6 @@ namespace YourProjectNamespace.Controllers
             {
                 conn.Open();
 
-                // 1. Get all unique dates
                 string dateSql = "SELECT DISTINCT TanggalAbsen FROM Absen ORDER BY TanggalAbsen";
                 using (SqlCommand cmd = new SqlCommand(dateSql, conn))
                 {
@@ -128,7 +125,6 @@ namespace YourProjectNamespace.Controllers
                     reader.Close();
                 }
 
-                // 2. Get all employees
                 string empSql = "SELECT NIK, Nama FROM Employee ORDER BY NIK";
                 using (SqlCommand cmd = new SqlCommand(empSql, conn))
                 {
@@ -144,7 +140,6 @@ namespace YourProjectNamespace.Controllers
                     reader.Close();
                 }
 
-                // 3. Get all presence data
                 string presenceSql = "SELECT NIK, TanggalAbsen FROM Absen";
                 using (SqlCommand cmd = new SqlCommand(presenceSql, conn))
                 {
@@ -163,11 +158,9 @@ namespace YourProjectNamespace.Controllers
                     reader.Close();
                 }
 
-                // 4. Compute totals
                 foreach (var emp in pivotData)
                 {
                     emp.Total = emp.AttendanceDates.Count(x => x.Value);
-                    // Make sure all dates are present in the dict, even if false
                     foreach (var d in allDates)
                     {
                         if (!emp.AttendanceDates.ContainsKey(d))
@@ -192,7 +185,6 @@ namespace YourProjectNamespace.Controllers
             {
                 conn.Open();
 
-                // 1. Get all unique year-months
                 string monthSql = @"
             SELECT DISTINCT FORMAT(TanggalAbsen, 'yyyyMM') AS YearMonth
             FROM Absen
@@ -207,7 +199,6 @@ namespace YourProjectNamespace.Controllers
                     reader.Close();
                 }
 
-                // 2. Get all employees
                 string empSql = "SELECT NIK, Nama FROM Employee ORDER BY NIK";
                 using (SqlCommand cmd = new SqlCommand(empSql, conn))
                 {
@@ -223,7 +214,6 @@ namespace YourProjectNamespace.Controllers
                     reader.Close();
                 }
 
-                // 3. Get all presence data
                 string presenceSql = "SELECT NIK, FORMAT(TanggalAbsen, 'yyyyMM') AS YearMonth FROM Absen";
                 using (SqlCommand cmd = new SqlCommand(presenceSql, conn))
                 {
@@ -245,7 +235,6 @@ namespace YourProjectNamespace.Controllers
                     reader.Close();
                 }
 
-                // 4. Compute totals and fill missing months
                 foreach (var emp in pivotData)
                 {
                     foreach (var ym in allMonths)
@@ -283,7 +272,6 @@ public IActionResult DeleteAttendanceDate()
     return View();
 }
 
-// POST: Delete selected date
 [HttpPost]
 public IActionResult DeleteAttendanceDate(DateTime tanggalAbsen)
 {
